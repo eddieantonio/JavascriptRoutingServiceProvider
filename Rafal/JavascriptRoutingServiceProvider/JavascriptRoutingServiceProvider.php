@@ -11,10 +11,10 @@ class JavascriptRoutingServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
     }
-    
+
     public function boot(Application $app)
     {
-        $app->before(function(Request $request) use($app) {
+        $app->before(function (Request $request) use ($app) {
             if (!isset($app['jsrouting.path'])) {
                 throw new \Exception('Missing `jsrouting.path` option!');
             }
@@ -37,13 +37,21 @@ class JavascriptRoutingServiceProvider implements ServiceProviderInterface
                     );
                     unset($routes[$name]['requirements']['_method']);
                 }
-                
-                file_put_contents($path . '/' . $file_name, $this->jsContent(json_encode($routes), json_encode($add_basepath), $request->getBasePath()));
+
+                file_put_contents(
+                    $path . '/' . $file_name,
+                    $this->jsContent(
+                        json_encode($routes),
+                        json_encode($add_basepath),
+                        $request->getBasePath()
+                    )
+                );
             }
         });
     }
-    
-    private function jsContent($data, $add_basepath, $basePath) {
+
+    private function jsContent($data, $add_basepath, $basePath)
+    {
         return <<<JS
 var Router = {
     routes: {$data},

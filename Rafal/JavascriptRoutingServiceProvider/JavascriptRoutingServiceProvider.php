@@ -30,7 +30,7 @@ class JavascriptRoutingServiceProvider implements ServiceProviderInterface
                 $routes = array();
                 foreach ($app['routes']->all() as $name => $route) {
                     $routes[$name] = array(
-                        'pattern'       => $route->getPattern(),
+                        'pattern'       => $route->getPath(),
                         'requirements'  => $route->getRequirements(),
                         'defaults'      => $route->getDefaults(),
                         'variables'     => $route->compile()->getVariables()
